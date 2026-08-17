@@ -1,0 +1,11 @@
+client_name,day_label,day_date,iso_date,day_theme,type,time,title,sub,origin,destination
+Família Souza,Dia 1,Sex 12 mar,2027-03-12,Chegada,flight,08:40,Voo GRU → MCO,LATAM 8181 · check-in online libera 24h antes,,
+Família Souza,Dia 1,Sex 12 mar,2027-03-12,Chegada,transit,16:30,Aeroporto → hotel,Van reservada (Mears Connect),Orlando International Airport,Disney's Caribbean Beach Resort
+Família Souza,Dia 1,Sex 12 mar,2027-03-12,Chegada,hotel,17:15,Check-in · Caribbean Beach Resort,Quarto Garden View · reserva nº 8827412,,
+Família Souza,Dia 1,Sex 12 mar,2027-03-12,Chegada,reminder,,Levar passaporte e comprovante de ESTA impressos,,,
+Família Souza,Dia 1,Sex 12 mar,2027-03-12,Chegada,reminder,,Fazer check-in online do voo 24h antes do embarque,,,
+Família Souza,Dia 2,Sáb 13 mar,2027-03-13,Magic Kingdom,transit,07:20,Hotel → Magic Kingdom,Ônibus Disney,Disney's Caribbean Beach Resort,Magic Kingdom
+Família Souza,Dia 2,Sáb 13 mar,2027-03-13,Magic Kingdom,ticket,08:00,Entrada · Magic Kingdom,Ingresso 1 dia + Genie+ ativado,,
+Família Souza,Dia 2,Sáb 13 mar,2027-03-13,Magic Kingdom,activity,10:30,Space Mountain,Lightning Lane reservado,,
+Família Souza,Dia 2,Sáb 13 mar,2027-03-13,Magic Kingdom,activity,21:00,Happily Ever After,Show de fogos · chegar 30 min antes,,
+Família Souza,Dia 2,Sáb 13 mar,2027-03-13,Magic Kingdom,reminder,,Reservar horários de Lightning Lane pelo app às 7h,,,
