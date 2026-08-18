@@ -181,7 +181,12 @@ function buildTripFromRows(rows) {
       day.items.push({ type: r.type, time: r.time || "", title: r.title || "", sub: r.sub || "", origin: r.origin || "", destination: r.destination || "" });
     }
   }
-  return { clientName: rows[0]?.client_name || TRIP_FALLBACK.clientName, title: TRIP_FALLBACK.title, dateRange: TRIP_FALLBACK.dateRange, days };
+  return {
+    clientName: rows[0]?.client_name || TRIP_FALLBACK.clientName,
+    title: TRIP_FALLBACK.title,
+    dateRange: days.length ? `${days[0].date} a ${days[days.length - 1].date}` : TRIP_FALLBACK.dateRange,
+    days
+  };
 }
 
 async function loadTrip() {
