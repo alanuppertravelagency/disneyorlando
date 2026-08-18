@@ -1,9 +1,9 @@
 // Calcula o tempo de deslocamento real entre dois pontos usando a
-// API do Google Maps (Distance Matrix). Roda como função serverless
-// (não expõe a chave da API no navegador).
+// Routes API do Google (substituta da antiga Distance Matrix API).
+// Roda como função serverless (não expõe a chave da API no navegador).
 //
 // Configuração necessária (ver LEIA-ME.md):
-//   1. Criar uma chave de API no Google Cloud com "Distance Matrix API" ativada
+//   1. No Google Cloud, ativar a "Routes API" (Library → buscar "Routes API" → Enable)
 //   2. Definir a variável de ambiente GOOGLE_MAPS_API_KEY no Netlify
 //   3. No index.html, definir CONFIG.TRAVEL_TIME_FUNCTION_URL como
 //      "/.netlify/functions/travel-time"
@@ -26,35 +26,47 @@ exports.handler = async (event) => {
     };
   }
 
-  const url = new URL("https://maps.googleapis.com/maps/api/distancematrix/json");
-  url.searchParams.set("origins", origin);
-  url.searchParams.set("destinations", destination);
-  url.searchParams.set("mode", mode || "driving");
-  url.searchParams.set("key", apiKey);
+  const travelModeMap = { driving: "DRIVE", walking: "WALK", bicycling: "BICYCLE", transit: "TRANSIT" };
+  const travelMode = travelModeMap[mode] || "DRIVE";
 
   try {
-    const res = await fetch(url.toString());
+    const res = await fetch("https://routes.googleapis.com/directions/v2:computeRoutes", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-Goog-Api-Key": apiKey,
+        "X-Goog-FieldMask": "routes.duration,routes.distanceMeters"
+      },
+      body: JSON.stringify({
+        origin: { address: origin },
+        destination: { address: destination },
+        travelMode
+      })
+    });
     const data = await res.json();
-    const el = data?.rows?.[0]?.elements?.[0];
+    const route = data?.routes?.[0];
 
-    if (!el || el.status !== "OK") {
+    if (!route) {
       return {
         statusCode: 200,
         body: JSON.stringify({
           durationText: null,
           error: "Rota não encontrada.",
-          debug_status: el ? el.status : data.status,
-          debug_error_message: data.error_message || null
+          debug: data
         })
       };
     }
 
+    const seconds = parseInt(route.duration, 10) || 0;
+    const minutes = Math.round(seconds / 60);
+    const km = route.distanceMeters ? (route.distanceMeters / 1000).toFixed(1) : null;
+
     return {
       statusCode: 200,
       body: JSON.stringify({
-        durationText: el.duration.text,
-        durationSeconds: el.duration.value,
-        distanceText: el.distance.text
+        durationText: `${minutes} min`,
+        durationSeconds: seconds,
+        distanceText: km ? `${km} km` : null
       })
     };
   } catch (err) {
