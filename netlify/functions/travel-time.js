@@ -40,7 +40,12 @@ exports.handler = async (event) => {
     if (!el || el.status !== "OK") {
       return {
         statusCode: 200,
-        body: JSON.stringify({ durationText: null, error: "Rota não encontrada." })
+        body: JSON.stringify({
+          durationText: null,
+          error: "Rota não encontrada.",
+          debug_status: el ? el.status : data.status,
+          debug_error_message: data.error_message || null
+        })
       };
     }
 
